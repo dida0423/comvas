@@ -130,7 +130,8 @@ export default function PaintCanvas({ onExport }) {
       for (let i = 0; i < line.points.length; i += 2) {
         pairs.push({ x: line.points[i], y: line.points[i + 1] });
       }
-
+      const currentLength = getLength(pairs);
+      console.log(`Calculated length for a stroke: ${currentLength}`);
       return {
         color: line.color,
         width: line.strokeWidth,
@@ -287,21 +288,83 @@ function getAvgCurvature(points) {
 
 async function sendToGPT(data) {
     console.log("SENDING TO GPT:", data);
-    const res = await fetch("https://api.openai.com/v1/responses", {
+
+    const systemPrompt = `You are a creative assistant that converts visual data into a musical composition. Your task is to analyze the provided JSON object containing canvas stroke data and generate a list of MIDI notes for a 2-bar melody.
+
+The stroke data contains properties like 'color', 'length', 'avgSpeed', and 'avgCurvature'. Use these properties to determine the pitch, duration, and velocity of the MIDI notes.
+
+## 🎶 Conversion Rules
+
+### 1. **CRITICAL SUBDIVISION RULE (10+ Notes Per Stroke):**
+
+You must generate **a minimum of 10 MIDI notes for every single stroke** provided in the input data. The final output must contain at least 30 notes total.
+
+To achieve this, perform segmentation based on the stroke's raw **'points'** array:
+1.  **Determine the Segment Length (N):** Calculate the total number of points in the stroke's raw 'points' array. Divide this total point count by **10**. This value, **N**, is the number of points that define one segment (which corresponds to one MIDI note).
+2.  **Generate $\ge 10$ Notes:** Iterate through the stroke's points array, generating a new MIDI note every time **N points** have been processed.
+
+### 2. **Pitch Mapping (Note Number 0-127):**
+
+* **Pitches** must be strictly limited to the **C Major Pentatonic** scale, but spanning a **three-octave range** (MIDI notes: **48 to 84**)
+* The pitch of each of the $\ge 10$ notes must be determined by the **average y-coordinate** of the points within its segment (the N points).
+* **Lower Y values (top of the canvas, 0-300) should map to a higher pitch** (e.g., 67-74).
+* **Higher Y values (bottom of the canvas, 301-600) should map to a lower pitch** (e.g., 60-65).
+
+### 3. **Duration Mapping (Rhythm via Density):**
+
+* **Total Time Constraint:** The **total duration of all generated notes must not exceed 4.0** (two measures of 4/4 time).
+* **Rhythmic Differentiation:** The duration of the notes generated from a stroke must be determined by the stroke's **relative 'length'** compared to the other two strokes.
+    * **Longest Stroke:** The $\ge 10$ notes derived from this stroke must have the **shortest duration** (e.g., **0.075**).
+    * **Medium Stroke:** The $\ge 10$ notes derived from this stroke must have a **medium duration** (e.g., **0.1**).
+    * **Shortest Stroke:** The $\ge 10$ notes derived from this stroke must have the **longest duration** (e.g., **0.125**).
+
+### 4. **Velocity Mapping (0-127):**
+
+* Use the stroke's overall **'avgSpeed'** property to determine the velocity for **all** notes generated from that specific stroke. Faster strokes should have higher velocity.
+
+## 📝 Output Format
+
+**The final output MUST be a JSON array of objects**, where each object represents a single MIDI note and contains three keys: \`note\`, \`duration\`, and \`velocity\`. Do not include any other text, explanations, or code blocks in your response.
+
+Example Output Format:
+[
+  { "note": 64, "duration": 0.257, "velocity": 85 },
+  { "note": 67, "duration": 0.135, "velocity": 85 },
+  // ... more notes, total of 30+
+]`;
+
+    const userPrompt = `Convert this stroke data into a 2-bar melody in C Major Pentatonic, following the rules above. Here is the data: ${JSON.stringify(data)}`;
+
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-5-nano",
-        input: `Convert this stroke data into a 2-bar melody: ${JSON.stringify(data)}`
+        model: "gpt-5-nano", 
+        messages: [
+            { "role": "system", "content": systemPrompt },
+            { "role": "user", "content": userPrompt }
+        ],
+        // new var that requests a json obj
+        response_format: { type: "json_object" } 
       })
     });
 
     const out = await res.json();
     console.log(out);
 
-  }
-  
+    // You would typically parse the MIDI notes from out.choices[0].message.content here
+    try {
+        const midiNotesString = out.choices[0].message.content;
+        const midiNotes = JSON.parse(midiNotesString);
+        console.log("GPT Generated MIDI Notes:", midiNotes);
+        
+        // 이건 뭐 send the generated MIDI notes to Max/MSP 할때 쓰는거라는데 사실 잘 모르겠음
+        // await sendToMax({ midi_data: midiNotes }); 
 
+    } catch (e) {
+        console.error("Error parsing GPT response or response structure not found:", e, out);
+    }
+  }
