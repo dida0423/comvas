@@ -293,7 +293,7 @@ async function sendToGPT(data) {
 
 The stroke data contains properties like 'color', 'length', 'avgSpeed', and 'avgCurvature'. Use these properties to determine the pitch, duration, and velocity of the MIDI notes.
 
-## 🎶 Conversion Rules
+## Conversion Rules
 
 ### 1. **CRITICAL SUBDIVISION RULE (10+ Notes Per Stroke):**
 
@@ -322,16 +322,27 @@ To achieve this, perform segmentation based on the stroke's raw **'points'** arr
 
 * Use the stroke's overall **'avgSpeed'** property to determine the velocity for **all** notes generated from that specific stroke. Faster strokes should have higher velocity.
 
-## 📝 Output Format
+## Output Format
 
-**The final output MUST be a JSON array of objects**, where each object represents a single MIDI note and contains three keys: \`note\`, \`duration\`, and \`velocity\`. Do not include any other text, explanations, or code blocks in your response.
+**The final output MUST be a JSON OBJECT** (a dictionary). This object must contain **EXACTLY THREE TOP-LEVEL KEYS**. These keys must be named **"blue_stroke"**, **"red_stroke"**, and **"green_stroke"**, corresponding to the color property of the input strokes.
+
+Each key's value **MUST** be a JSON array containing only the note objects derived from that specific colored stroke.
 
 Example Output Format:
-[
-  { "note": 64, "duration": 0.257, "velocity": 85 },
-  { "note": 67, "duration": 0.135, "velocity": 85 },
-  // ... more notes, total of 30+
-]`;
+{
+  "blue_stroke": [
+    { "note": 55, "duration": 0.075, "velocity": 106 },
+    // ... notes from the blue stroke ...
+  ],
+  "red_stroke": [
+    { "note": 81, "duration": 0.1, "velocity": 94 },
+    // ... notes from the red stroke ...
+  ],
+  "green_stroke": [
+    { "note": 81, "duration": 0.125, "velocity": 109 },
+    // ... notes from the green stroke ...
+  ]
+}`;
 
     const userPrompt = `Convert this stroke data into a 2-bar melody in C Major Pentatonic, following the rules above. Here is the data: ${JSON.stringify(data)}`;
 
