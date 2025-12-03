@@ -1,0 +1,158 @@
+{
+    "blue_stroke": [
+        {
+            "note": 60,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 67,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 62,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 62,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 62,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 69,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 72,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 72,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 72,
+            "duration": 0.075,
+            "velocity": 102
+        },
+        {
+            "note": 72,
+            "duration": 0.075,
+            "velocity": 102
+        }
+    ],
+    "red_stroke": [
+        {
+            "note": 72,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 72,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 72,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 60,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 60,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 62,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 62,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 64,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 64,
+            "duration": 0.1,
+            "velocity": 127
+        },
+        {
+            "note": 64,
+            "duration": 0.1,
+            "velocity": 127
+        }
+    ],
+    "green_stroke": [
+        {
+            "note": 72,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 67,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 62,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 60,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 72,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 72,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 62,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 62,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 64,
+            "duration": 0.125,
+            "velocity": 106
+        },
+        {
+            "note": 72,
+            "duration": 0.125,
+            "velocity": 106
+        }
+    ]
+}
