@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 34.0, 99.0, 630.0, 807.0 ],
+		"rect" : [ 134.0, 174.0, 823.0, 807.0 ],
 		"gridsize" : [ 15.0, 15.0 ],
 		"boxes" : [ 			{
 				"box" : 				{
@@ -40,7 +40,7 @@
 					"numoutlets" : 1,
 					"offset" : [ 0.0, 0.0 ],
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 128.0, 43.0, 403.0, 268.0 ],
+					"patching_rect" : [ 128.0, 43.0, 400.0, 220.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -78,8 +78,6 @@
 					"saved_object_attributes" : 					{
 						"autostart" : 0,
 						"defer" : 0,
-						"node_bin_path" : "",
-						"npm_bin_path" : "",
 						"watch" : 0
 					}
 ,
@@ -126,12 +124,10 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 85.0, 382.0, 206.0, 22.0 ],
+					"patching_rect" : [ 85.0, 389.0, 206.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"autostart" : 1,
 						"defer" : 0,
-						"node_bin_path" : "",
-						"npm_bin_path" : "",
 						"watch" : 0
 					}
 ,
@@ -212,7 +208,7 @@
 			}
 , 			{
 				"name" : "ws-server.js",
-				"bootpath" : "~/Documents/2025-2/comvas/comvas-max",
+				"bootpath" : "~/Desktop/comvas/comvas-max",
 				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1
