@@ -223,7 +223,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 640.0, 419.0, 72.0, 22.0 ],
+					"patching_rect" : [ 651.0, 367.768574655056, 72.0, 22.0 ],
 					"text" : "get $1::note"
 				}
 
